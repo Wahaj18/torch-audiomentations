@@ -123,6 +123,7 @@ class LowPassFilter(BaseWaveformTransform):
                     samples[i], cutoffs_as_fraction_of_sample_rate[i].item()
                 )
         else:
+            self.cached_lpf.to(samples)
             for i in range(batch_size):
                 samples[i] = self.cached_lpf(samples[i])
 

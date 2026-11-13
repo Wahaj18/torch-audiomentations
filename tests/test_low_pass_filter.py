@@ -44,3 +44,11 @@ class TestLowPassFilter:
         ).samples.numpy()
         assert processed_samples.shape == samples.shape
         assert processed_samples.dtype == np.float32
+
+    def test_equal_cutoff_min_max_follows_input_dtype(self):
+        samples = torch.rand(size=(3, 2, 4000), dtype=torch.float64)
+        augment = LowPassFilter(
+            min_cutoff_freq=2000, max_cutoff_freq=2000, p=1.0, output_type="dict"
+        )
+        processed_samples = augment(samples=samples, sample_rate=16000).samples
+        assert processed_samples.dtype == torch.float64
